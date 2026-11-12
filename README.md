@@ -2,11 +2,6 @@
 
 A full-stack blogging platform for sharing stories and ideas. Anyone can read, post and comment, **with or without an account**. Anonymous writers can still edit or delete their own posts and comments from the browser they wrote them in.
 
-**Live demo:** https://blogsbyomaima.netlify.app/
-**Backend API:** https://blogplatform-2-0.onrender.com/api
-
----
-
 ## Features
 
 - **User accounts:** register and log in with JWT authentication (7-day sessions) and bcrypt-hashed passwords
@@ -173,6 +168,8 @@ Base URL: `/api`
 - `frontend/public/_redirects` contains `/* /index.html 200` so page refreshes on routes like `/post/:id` work
 
 > Render's free tier sleeps after inactivity, so the first request after a quiet period can take 30 to 60 seconds.
+## Live Demo
+https://blogsbyomaima.netlify.app/
 
 ## Future Improvements
 
@@ -182,6 +179,4 @@ Base URL: `/api`
 - Rich text or Markdown support in stories
 - Show dates and times on comments
 
-## Contact
 
-Have questions or suggestions? Reach out at **omaima.sheikh.10@gmail.com**.
