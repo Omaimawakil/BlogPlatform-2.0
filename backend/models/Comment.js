@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+
 const CommentSchema = new mongoose.Schema({
   text: String,
 
@@ -11,7 +12,11 @@ const CommentSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User"
-  }
+  },
+  editTokenHash: { 
+    type: String, select: false },
 }, { timestamps: true });
 
 module.exports = mongoose.model("Comment", CommentSchema);
+
+  

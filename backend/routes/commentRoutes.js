@@ -7,5 +7,6 @@ const { createComment, getComments, deleteComment } = require("../controllers/co
 router.get("/:postId", getComments);
 router.post("/", optionalAuth, createComment);
 router.delete("/:id", auth, deleteComment);
+router.delete("/:id", optionalAuth, deleteComment);
 
 module.exports = router;

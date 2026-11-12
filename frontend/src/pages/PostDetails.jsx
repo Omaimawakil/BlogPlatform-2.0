@@ -2,6 +2,25 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import API from "../services/api";
 import { getEditToken, removeEditToken } from "../services/editTokens";
+const readCommentTokens = () => {
+  try {
+    return JSON.parse(localStorage.getItem("commentTokens") || "{}");
+  } catch {
+    return {};
+  }
+};
+
+const saveCommentToken = (commentId, token) => {
+  const tokens = readCommentTokens();
+  tokens[commentId] = token;
+  localStorage.setItem("commentTokens", JSON.stringify(tokens));
+};
+
+const removeCommentToken = (commentId) => {
+  const tokens = readCommentTokens();
+  delete tokens[commentId];
+  localStorage.setItem("commentTokens", JSON.stringify(tokens));
+};
 
 function PostDetails() {
   const { id } = useParams();
@@ -52,7 +71,8 @@ function PostDetails() {
     setCommentSuccess("");
     setCommentLoading(true);
     try {
-      await API.post("/comments", { text: text.trim(), post: id });
+      const res = await API.post("/comments", { text: text.trim(), post: id });
+      if (res.data.editToken) saveCommentToken(res.data._id, res.data.editToken);
       await fetchComments();
       setText("");
       setCommentSuccess("Your comment has been added.");
@@ -71,9 +91,10 @@ function PostDetails() {
   const canManagePost = isPostAuthor || isAdmin || hasEditKey;
 
   const canDeleteComment = (comment) =>
-    isAdmin ||
-    isPostAuthor ||
-    Boolean(currentUserId && comment.user && String(comment.user._id || comment.user) === String(currentUserId));
+  isAdmin ||
+  isPostAuthor ||
+  Boolean(currentUserId && comment.user && String(comment.user._id || comment.user) === String(currentUserId)) ||
+  Boolean(!comment.user && readCommentTokens()[comment._id]);
 
   const handleDeletePost = async () => {
     if (!window.confirm("Delete this story and all its comments? This cannot be undone.")) return;
@@ -87,14 +108,19 @@ function PostDetails() {
   };
 
   const handleDeleteComment = async (commentId) => {
-    if (!window.confirm("Delete this comment?")) return;
-    try {
-      await API.delete(`/comments/${commentId}`);
-      await fetchComments();
-    } catch (err) {
-      setCommentError(err.response?.data?.message || "Couldn't delete this comment.");
-    }
-  };
+  if (!window.confirm("Delete this comment?")) return;
+  try {
+    const token = readCommentTokens()[commentId];
+    await API.delete(
+      `/comments/${commentId}`,
+      token ? { headers: { "x-edit-token": token } } : undefined
+    );
+    removeCommentToken(commentId);
+    await fetchComments();
+  } catch (err) {
+    setCommentError(err.response?.data?.message || "Couldn't delete this comment.");
+  }
+};
 
   if (loading) return <div className="loading-state detail-loading"><span className="loader"></span><p>Opening the story...</p></div>;
   if (error || !post) return <div className="empty-state"><span className="empty-icon">✳</span><h2>Story not found</h2><p>{error || "This story isn't available."}</p><Link className="button" to="/">Back to stories ↗</Link></div>;
