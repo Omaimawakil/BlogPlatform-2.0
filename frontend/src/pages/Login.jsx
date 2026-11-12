@@ -38,7 +38,7 @@ function Login() {
       <div className="auth-panel">
         <div className="auth-form-wrap">
           <span className="eyebrow">WELCOME BACK</span>
-          <h2>Log in to Papertrail</h2>
+          <h2>Log in to ThoughtsArchive</h2>
           <p className="form-intro">Good stories are waiting. Come on in.</p>
           {error && <div className="notice notice-error" role="alert">{error}</div>}
           <form className="form-stack" onSubmit={handleSubmit}>

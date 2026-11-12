@@ -52,4 +52,25 @@
 .write-cta a {
   display: none !important;
 }
+.site-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 22px 15px;
+  font-size: 14px;
+  color: #777;
+}
 
+.site-footer a {
+  color: #b77945;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: 0.2s ease;
+}
+
+.site-footer a:hover {
+  border-bottom-color: #b77945;
+  color: #8f5932;
+}

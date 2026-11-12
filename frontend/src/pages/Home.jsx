@@ -50,6 +50,9 @@ function Home() {
           <span className="eyebrow"><span className="eyebrow-dot"></span> IDEAS ARE BETTER SHARED</span>
           <h1>Stories worth<br /><em>stopping for.</em></h1>
           <p>A home for curious minds, fresh perspectives, and the little things that make us think.</p>
+          
+          
+          <p>Feel free to express yourselves here, you do not need to login to share your thoughts, you can post and comment anonymously if you want to keep your identity private. </p>
           <div className="hero-actions">
             <a href="#stories" className="button">Explore stories <span>↓</span></a>
             <Link to="/create-post" className="text-link">Have a story? Write it <span>↗</span></Link>
@@ -67,7 +70,7 @@ function Home() {
 
       <section className="stories-section" id="stories">
         <div className="section-heading">
-          <div><span className="eyebrow">THE READING ROOM</span><h2>Fresh from the <em>community.</em></h2></div>
+          <div><span className="eyebrow">THE READING ROOM</span><h2>A little space for <em>big ideas</em></h2></div>
           <span className="post-count">{posts.length.toString().padStart(2, "0")} STORIES</span>
         </div>
         <div className="stories-toolbar">
@@ -98,8 +101,19 @@ function Home() {
         )}
       </section>
       <section className="write-cta"><div><span className="eyebrow">YOUR TURN</span><h2>Every great story<br />starts <em>somewhere.</em></h2></div><Link className="button button-light" to="/create-post">Share your thoughts <span>↗</span></Link></section>
-    </>
+    <footer className="site-footer">
+  <p>© 2026 Your Blog Platform. All rights reserved.</p>
+  <p> 
+    Have questions or suggestions? Contact me at:{"omaima.sheikh.10@gmail.com"}
+   <a href="omaima.sheikh.10@gmail.com">
+   </a>
+    
+  </p>
+</footer>
+</>
+   
   );
 }
+
 
 export default Home;

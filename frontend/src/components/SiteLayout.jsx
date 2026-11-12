@@ -22,7 +22,7 @@ export default function SiteLayout() {
         <div className="nav-wrap">
           <Link className="brand" to="/" onClick={closeMenu}>
             <span className="brand-mark">B</span>
-            <span>paper<span className="brand-accent">trail</span></span>
+            <span>Thoughts<span className="brand-accent">Archive</span></span>
           </Link>
           <button className="menu-toggle" aria-label="Toggle navigation" onClick={() => setMenuOpen(!menuOpen)}>
             <span></span><span></span><span></span>
@@ -43,10 +43,11 @@ export default function SiteLayout() {
       </header>
       <main className="page-content"><Outlet /></main>
       <footer className="site-footer">
-        <Link className="footer-brand" to="/">papertrail.</Link>
-        <span>A little space for big ideas.</span>
-        <span>© {new Date().getFullYear()} Papertrail</span>
-      </footer>
+       <Link className="footer-brand" to="/">ThoughtsArchive</Link>
+        <span></span>
+        <span>© {new Date().getFullYear()} ThoughtsArchive</span>
+      </footer> 
     </div>
-  );
-}
+    )
+  }    
+  
