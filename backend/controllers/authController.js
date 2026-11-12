@@ -56,20 +56,25 @@ const loginUser = async (req, res) => {
       });
     }
 
+    const isAdmin =
+      Boolean(process.env.ADMIN_EMAIL) &&
+      user.email.toLowerCase() === process.env.ADMIN_EMAIL.trim().toLowerCase();
+
     const token = jwt.sign(
-      { id: user._id },
+      { id: user._id, isAdmin },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
 
-   res.json({
-  token,
-  user: {
-    _id: user._id,
-    name: user.name,
-    email: user.email,
-  },
-});
+    res.json({
+      token,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin,
+      },
+    });
 
   } catch (error) {
     res.status(500).json({

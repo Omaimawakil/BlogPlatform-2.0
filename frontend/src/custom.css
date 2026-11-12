@@ -1,0 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+
+/* Bigger "Read story" button */
+.read-link {
+  font-size: 13px;
+  padding: 10px 16px;
+  border: 1px solid var(--green);
+  border-radius: 3px;
+  transition: background .2s, color .2s;
+}
+.read-link:hover {
+  background: var(--green);
+  color: #fff;
+}
+.author-name { font-size: 11px; }
+
+/* New font for the story text */
+.article-body p {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 18px;
+  line-height: 1.9;
+}
+@media (max-width: 620px) {
+  .article-body p { font-size: 16px; }
+}
+/* "Have a story? Write it" as a bordered button */
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  border: 1px solid var(--green);
+  border-radius: 3px;
+  padding: 14px 20px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  color: var(--green);
+  background: transparent;
+  transition: background .2s, color .2s, transform .2s, box-shadow .2s;
+}
+.text-link:hover {
+  background: var(--green);
+  color: #fff;
+  box-shadow: 0 8px 20px #24433325;
+  transform: translateY(-2px);
+}
+.text-link:hover span {
+  color: #fff;
+}
+.write-cta .button,
+.write-cta a {
+  display: none !important;
+}
+

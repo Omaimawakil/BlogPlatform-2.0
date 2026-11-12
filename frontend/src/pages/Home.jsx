@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import API from "../services/api";
+import { getEditToken } from "../services/editTokens";
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -29,11 +30,18 @@ function Home() {
     const query = search.trim().toLowerCase();
     if (!query) return posts;
     return posts.filter((post) =>
-      `${post.title || ""} ${post.content || ""} ${post.author?.name || ""}`.toLowerCase().includes(query)
+      `${post.title || ""} ${post.content || ""} ${post.author?.name || "Anonymous"}`.toLowerCase().includes(query)
     );
   }, [posts, search]);
 
   const excerpt = (content = "") => content.length > 190 ? `${content.slice(0, 190).trim()}…` : content;
+
+  const userId = localStorage.getItem("userId");
+  const isAdmin = localStorage.getItem("isAdmin") === "true";
+  const canManage = (post) =>
+    isAdmin ||
+    Boolean(userId && post.author && String(post.author._id || post.author) === String(userId)) ||
+    Boolean(!post.author && getEditToken(post._id));
 
   return (
     <>
@@ -81,8 +89,8 @@ function Home() {
                   <div className="post-meta"><span>COMMUNITY STORY</span><span>✦</span></div>
                   <h3><Link to={`/post/${post._id}`}>{post.title}</Link></h3>
                   <p>{excerpt(post.content)}</p>
-                  <div className="card-footer"><span className="author-avatar">{(post.author?.name || "A").charAt(0).toUpperCase()}</span><span className="author-name">{post.author?.name || "Community member"}</span><Link className="read-link" to={`/post/${post._id}`} aria-label={`Read ${post.title}`}>Read story <span>↗</span></Link></div>
-                  {localStorage.getItem("userId") && String(post.author?._id || post.author) === String(localStorage.getItem("userId")) && <div className="card-management-actions"><Link to={`/post/${post._id}/edit`}>Edit</Link><Link to={`/post/${post._id}`}>Manage</Link></div>}
+                  <div className="card-footer"><span className="author-avatar">{(post.author?.name || "Anonymous").charAt(0).toUpperCase()}</span><span className="author-name">{post.author?.name || "Anonymous"}</span><Link className="read-link" to={`/post/${post._id}`} aria-label={`Read ${post.title}`}>Read story <span>↗</span></Link></div>
+                  {canManage(post) && <div className="card-management-actions"><Link to={`/post/${post._id}/edit`}>Edit</Link><Link to={`/post/${post._id}`}>Manage</Link></div>}
                 </div>
               </article>
             ))}

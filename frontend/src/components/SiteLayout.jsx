@@ -9,6 +9,7 @@ export default function SiteLayout() {
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
+    localStorage.removeItem("isAdmin");
     setMenuOpen(false);
     navigate("/");
   };
