@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 import API from "../services/api";
 import { getEditToken } from "../services/editTokens";
+import { formatDateTime } from "../services/formatDate";
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -87,11 +88,14 @@ function Home() {
           <div className="post-grid">
             {filteredPosts.map((post, index) => (
               <article className="post-card" key={post._id}>
-                <div className={`card-art card-art-${index % 4}`}><span>{["THE JOURNAL", "OPEN PERSPECTIVES", "NOTES & THOUGHTS", "THE READING LIST"][index % 4]}</span><b>{["✳", "◒", "✴", "❋"][index % 4]}</b><small>NO. {(index + 1).toString().padStart(2, "0")}</small></div>
+                <div className={`card-art card-art-${index % 4}`}><span>{["THE JOURNAL", "OPEN PERSPECTIVES", "NOTES & THOUGHTS", "THE READING LIST"][index % 4]}</span><b>{["✴", "◒", "✳", "❋"][index % 4]}</b><small>NO. {(index + 1).toString().padStart(2, "0")}</small></div>
                 <div className="post-card-body">
                   <div className="post-meta"><span>COMMUNITY STORY</span><span>✦</span></div>
                   <h3><Link to={`/post/${post._id}`}>{post.title}</Link></h3>
-                  <p>{excerpt(post.content)}</p>
+                 
+                    <time className="post-date" dateTime={post.createdAt}>{formatDateTime(post.createdAt)}</time>
+                    <p>{excerpt(post.content)}</p>
+                 
                   <div className="card-footer"><span className="author-avatar">{(post.author?.name || "Anonymous").charAt(0).toUpperCase()}</span><span className="author-name">{post.author?.name || "Anonymous"}</span><Link className="read-link" to={`/post/${post._id}`} aria-label={`Read ${post.title}`}>Read story <span>↗</span></Link></div>
                   {canManage(post) && <div className="card-management-actions"><Link to={`/post/${post._id}/edit`}>Edit</Link><Link to={`/post/${post._id}`}>Manage</Link></div>}
                 </div>
@@ -101,14 +105,13 @@ function Home() {
         )}
       </section>
       <section className="write-cta"><div><span className="eyebrow">YOUR TURN</span><h2>Every great story<br />starts <em>somewhere.</em></h2></div><Link className="button button-light" to="/create-post">Share your thoughts <span>↗</span></Link></section>
-    <footer className="site-footer">
-  <p>© 2026 Your Blog Platform. All rights reserved.</p>
-  <p> 
-    Have questions or suggestions? Contact me at:{"omaima.sheikh.10@gmail.com"}
-   <a href="omaima.sheikh.10@gmail.com">
-   </a>
-    
-  </p>
+    <footer className="site-footer home-footer">
+  <Link className="footer-brand" to="/">ThoughtsArchive</Link>
+  <p>© {new Date().getFullYear()} ThoughtsArchive. All rights reserved.</p>
+  <p className="footer-contact">
+  Have questions or suggestions? Contact me at:{" "}
+  <span className="footer-email">omaima.sheikh.10@gmail.com</span>
+</p>
 </footer>
 </>
    

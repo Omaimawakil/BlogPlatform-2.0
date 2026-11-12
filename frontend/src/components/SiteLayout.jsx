@@ -42,11 +42,7 @@ export default function SiteLayout() {
         </div>
       </header>
       <main className="page-content"><Outlet /></main>
-      <footer className="site-footer">
-       <Link className="footer-brand" to="/">ThoughtsArchive</Link>
-        <span></span>
-        <span>© {new Date().getFullYear()} ThoughtsArchive</span>
-      </footer> 
+      
     </div>
     )
   }    

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import API from "../services/api";
 import { getEditToken, removeEditToken } from "../services/editTokens";
+import { formatDateTime } from "../services/formatDate";
 const readCommentTokens = () => {
   try {
     return JSON.parse(localStorage.getItem("commentTokens") || "{}");
@@ -136,7 +137,7 @@ function PostDetails() {
       <header className="article-header">
         <span className="eyebrow">COMMUNITY STORY</span>
         <h1>{post.title}</h1>
-        <div className="article-byline"><span className="author-avatar large-avatar">{(post.author?.name || "Anonymous").charAt(0).toUpperCase()}</span><div><strong>{post.author?.name || "Anonymous"}</strong><span>Author · ThoughtsArchive community</span></div></div>
+        <div className="article-byline"><span className="author-avatar large-avatar">{(post.author?.name || "Anonymous").charAt(0).toUpperCase()}</span><div><strong>{post.author?.name || "Anonymous"}</strong><span>Author · ThoughtsArchive community</span><span>Published {formatDateTime(post.createdAt)}</span></div></div>
       </header>
       <div className="article-body"><p>{post.content}</p></div>
       <div className="article-endmark">✳</div>
