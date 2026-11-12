@@ -115,59 +115,7 @@ Open http://localhost:5173.
 
 > Never commit `.env` or `.env.local` files. They are listed in `.gitignore`.
 
-## API Reference
 
-Base URL: `/api`
-
-### Auth
-
-| Method | Endpoint | Description |
-|---|---|---|
-| POST | `/auth/register` | Create an account (`name`, `email`, `password`) |
-| POST | `/auth/login` | Log in and receive a JWT |
-
-### Posts
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/posts` | List all posts |
-| GET | `/posts/:id` | Get one post |
-| POST | `/posts` | Create a post (login optional) |
-| PUT | `/posts/:id` | Edit a post (author, admin, or edit token) |
-| DELETE | `/posts/:id` | Delete a post and its comments (author, admin, or edit token) |
-
-### Comments
-
-| Method | Endpoint | Description |
-|---|---|---|
-| GET | `/comments/:postId` | List comments on a post |
-| POST | `/comments` | Add a comment (login optional) |
-| DELETE | `/comments/:id` | Delete a comment (commenter, post author, admin, or edit token) |
-
-**Authentication:** send the JWT in the `Authorization` header. Anonymous owners send their secret in the `x-edit-token` header, which the frontend does automatically.
-
-## How Anonymous Ownership Works
-
-1. When a guest creates a post or comment, the server generates a random secret token and returns it **once**.
-2. Only a SHA-256 hash of that token is stored in the database.
-3. The browser saves the token in `localStorage`.
-4. On edit or delete, the browser sends the token in the `x-edit-token` header, and the server compares hashes using a timing-safe check.
-
-**Limitation:** if a guest clears their browser data or switches devices, they lose the ability to edit or delete their anonymous content.
-
-## Deployment
-
-**Backend (Render):** deploy the `backend` folder as a Node web service. Set `MONGO_URI`, `JWT_SECRET` and `ADMIN_EMAIL` as environment variables. The start command is `npm start`.
-
-**Frontend (Netlify):**
-
-- Base directory: `frontend`
-- Build command: `npm run build`
-- Publish directory: `frontend/dist`
-- Environment variable: `VITE_API_URL` set to your backend's `/api` URL
-- `frontend/public/_redirects` contains `/* /index.html 200` so page refreshes on routes like `/post/:id` work
-
-> Render's free tier sleeps after inactivity, so the first request after a quiet period can take 30 to 60 seconds.
 ## Live Demo
 https://blogsbyomaima.netlify.app/
 
